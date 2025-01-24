@@ -211,12 +211,14 @@ async function getBrowser(
       anonSdkClientId: "",
       environment: baseUrl,
     });
-    const { cdpUrl } = await anon.run.createCdpUrl({
+    const { cdpUrl, liveStreamingUrl } = await anon.run.createCdpUrl({
       apps,
       appUserId,
       proxy: false,
       ...(provider ? { provider } : {})
     });
+
+    console.log(`Anon live streaming url: ${liveStreamingUrl}`)
     const browser = await chromium.connectOverCDP(cdpUrl);
     const context = browser.contexts()[0];
     return { context, env }; // TODO add browser?
